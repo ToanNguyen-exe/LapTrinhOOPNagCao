@@ -1,4 +1,4 @@
-package queueUseSelectLinked;
+package DSAStackQueue.queueUseSelectLinked;
 
 public class LinkListQueueCclient {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package queueUseSelectLinked;
+package DSAStackQueue.queueUseSelectLinked;
 
 public class MylinkedListQueue {
     private Node head;
