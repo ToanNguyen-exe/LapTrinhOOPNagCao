@@ -1,4 +1,4 @@
-package caseStudyModule2;
+package caseStudyModule2.models;
 
 import java.util.List;
 
@@ -29,5 +29,10 @@ public class Movies {
 
     public List<String> getShowTimes() {
         return showTimes;
+    }
+
+    @Override
+    public String toString() {
+        return id + ". " + name + " (Phòng " + roomNumber + ")";
     }
 }

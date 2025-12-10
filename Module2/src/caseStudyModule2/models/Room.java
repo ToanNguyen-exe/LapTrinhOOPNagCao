@@ -1,4 +1,6 @@
-package caseStudyModule2;
+package caseStudyModule2.models;
+
+import caseStudyModule2.services.FileManager;
 
 public class Room {
     private String roomKey;

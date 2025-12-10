@@ -1,4 +1,4 @@
-package caseStudyModule2;
+package caseStudyModule2.services;
 
 import java.io.*;
 
@@ -26,6 +26,16 @@ public class FileManager {
             return seats;
         } catch (Exception e) {
             return null;
+        }
+    }
+    public static void deleteRoom(String roomKey) {
+        try {
+            File file = new File("room_" + roomKey + ".dat");
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi xóa file phòng!");
         }
     }
 }

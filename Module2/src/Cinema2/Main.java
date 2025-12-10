@@ -224,7 +224,7 @@ public class Main {
         return total;
     }
 
-    private static void adminMenu() {
+    public static void adminMenu() {
         System.out.println("\n===== QUẢN LÝ HỆ THỐNG =====");
         System.out.print("Nhập mật khẩu admin: ");
         String password = sc.nextLine();

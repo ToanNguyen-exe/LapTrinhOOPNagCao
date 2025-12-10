@@ -1,4 +1,4 @@
-package caseStudyModule2;
+package caseStudyModule2.Utils;
 
 public class SeatPrice {
     public static int getPrice(String seat) {
