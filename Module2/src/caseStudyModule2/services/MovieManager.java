@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MovieManager {
-    private ArrayList<Movies> movies;
+    private final ArrayList<Movies> movies;
 
     public MovieManager() {
         this.movies = new ArrayList<>();
@@ -44,9 +44,6 @@ public class MovieManager {
         return null;
     }
 
-    /**
-     * Hiển thị danh sách phim
-     */
     public void displayMovies() {
         System.out.println("\n===== DANH SÁCH PHIM =====");
         for (Movies movie : movies) {

@@ -3,10 +3,10 @@ package caseStudyModule2.models;
 import java.util.List;
 
 public class Movies {
-    private int id;
-    private String name;
-    private int roomNumber;
-    private List<String> showTimes;
+    private final int id;
+    private final String name;
+    private final int roomNumber;
+    private final List<String> showTimes;
 
     public Movies(int id, String name, int roomNumber, List<String> showTimes) {
         this.id = id;

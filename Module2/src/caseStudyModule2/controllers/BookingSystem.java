@@ -1,8 +1,6 @@
 package caseStudyModule2.controllers;
 
 
-import caseStudyModule2.Admin.AdminAuth;
-import caseStudyModule2.Admin.AdminSystem;
 import caseStudyModule2.Utils.InputHandler;
 import caseStudyModule2.Utils.MovieSelector;
 import caseStudyModule2.models.BookingData;
@@ -13,29 +11,24 @@ import caseStudyModule2.services.SeatSelector;
 
 import java.util.Scanner;
 
-import static Cinema2.Main.adminMenu;
-
 public class BookingSystem {
-    private MovieManager movieManager;
-    private InputHandler inputHandler;
-    private MovieSelector movieSelector;
-    private SeatSelector seatSelector;
-    private PaymentProcessor paymentProcessor;
-    private AdminSystem adminSystem;
-    private Scanner scanner;
+    private final MovieManager movieManager;
+    private final MovieSelector movieSelector;
+    private final SeatSelector seatSelector;
+    private final PaymentProcessor paymentProcessor;
+    private final Scanner scanner;
 
     public BookingSystem(MovieManager movieManager) {
         this.movieManager = movieManager;
         this.scanner = new Scanner(System.in);
-        this.inputHandler = new InputHandler(scanner);
+        InputHandler inputHandler = new InputHandler(scanner);
         this.movieSelector = new MovieSelector(movieManager, inputHandler);
         this.seatSelector = new SeatSelector(inputHandler);
         this.paymentProcessor = new PaymentProcessor(inputHandler);
-        this.adminSystem = new AdminSystem(movieManager, inputHandler);
     }
 
     public void run() {
-        int choice = 0;
+        int choice;
         do {
             displayMainMenu();
             choice = getUserChoice();
@@ -51,8 +44,7 @@ public class BookingSystem {
         System.out.println("\n===== MOVIE BOOKING SYSTEM =====");
         System.out.println("1. Xem danh sách phim");
         System.out.println("2. Đặt vé xem phim");
-        System.out.println("3. Quản lý (Admin)");
-        System.out.println("4. Thoát");
+        System.out.println("3. Thoát");
         System.out.print("Chọn chức năng: ");
     }
 
@@ -74,9 +66,6 @@ public class BookingSystem {
             case 2:
                 processBooking();
                 break;
-            case 3:
-                handleAdminPanel();
-                break;
             case 4:
                 System.out.println("\nCảm ơn bạn đã sử dụng hệ thống!");
                 break;
@@ -85,9 +74,6 @@ public class BookingSystem {
         }
     }
 
-    private void handleAdminPanel() {
-        adminSystem.run();
-    }
 
     private void processBooking() {
         System.out.println("\n===== ĐẶT VÉ XEM PHIM =====");

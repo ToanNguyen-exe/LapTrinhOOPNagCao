@@ -3,8 +3,8 @@ package caseStudyModule2.models;
 import caseStudyModule2.services.FileManager;
 
 public class Room {
-    private String roomKey;
-    private SeatMap seatMap;
+    private final String roomKey;
+    private final SeatMap seatMap;
 
     public Room(String roomKey) {
         this.roomKey = roomKey;
@@ -15,11 +15,6 @@ public class Room {
         return seatMap;
     }
 
-    public String getRoomKey() {
-        return roomKey;
-    }
-
-    // Lưu trạng thái ghế vào file
     public void saveSeats() {
         FileManager.saveRoom(roomKey, seatMap.getSeats());
     }

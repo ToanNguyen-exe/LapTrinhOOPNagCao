@@ -10,7 +10,7 @@ import caseStudyModule2.models.Room;
 import java.util.ArrayList;
 
 public class SeatSelector {
-    private InputHandler inputHandler;
+    private final InputHandler inputHandler;
 
     public SeatSelector(InputHandler inputHandler) {
         this.inputHandler = inputHandler;

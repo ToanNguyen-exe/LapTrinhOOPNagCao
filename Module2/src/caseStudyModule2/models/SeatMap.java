@@ -3,9 +3,7 @@ package caseStudyModule2.models;
 import caseStudyModule2.services.FileManager;
 
 public class SeatMap {
-    private boolean[][] seats;
-    private final int rows = 8;
-    private final int cols = 10;
+    private final boolean[][] seats;
 
     public SeatMap(String roomKey) {
         boolean[][] loadedSeats = FileManager.loadRoom(roomKey);
@@ -13,6 +11,8 @@ public class SeatMap {
         if (loadedSeats != null) {
             seats = loadedSeats;
         } else {
+            int rows = 8;
+            int cols = 10;
             seats = new boolean[rows][cols];
         }
     }

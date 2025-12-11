@@ -3,9 +3,9 @@ package caseStudyModule2.models;
 import java.util.ArrayList;
 
 public class BookingData {
-    private Room room;
-    private ArrayList<String> selectedSeats;
-    private ArrayList<Integer> seatPrices;
+    private final Room room;
+    private final ArrayList<String> selectedSeats;
+    private final ArrayList<Integer> seatPrices;
 
     public BookingData(Room room, ArrayList<String> selectedSeats, ArrayList<Integer> seatPrices) {
         this.room = room;

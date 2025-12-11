@@ -1,4 +1,4 @@
-package caseStudyModule2.Admin;
+package Cinema2.Admin;
 
 import caseStudyModule2.Utils.InputHandler;
 import caseStudyModule2.models.Movies;
@@ -27,7 +27,6 @@ public class AdminSystem {
             displayAdminMenu();
             choice = inputHandler.getIntInput();
 
-            handleAdminChoice(choice);
 
         } while (choice != 6);
     }
@@ -43,17 +42,7 @@ public class AdminSystem {
         System.out.print("Chọn chức năng: ");
     }
 
-    private void handleAdminChoice(int choice) {
-        switch (choice) {
-            case 1 -> viewAllMovies();
-            case 2 -> addNewMovie();
-            case 3 -> removeMovie();
-            case 4 -> viewBookingStats();
-            case 5 -> resetRoomSeats();
-            case 6 -> System.out.println("Đã đăng xuất khỏi admin panel.");
-            default -> System.out.println("Lựa chọn không hợp lệ!");
-        }
-    }
+
 
     private void viewAllMovies() {
         System.out.println("\n===== DANH SÁCH PHIM CHI TIẾT =====");
@@ -122,7 +111,7 @@ public class AdminSystem {
                 Room room = new Room(roomKey);
 
                 int bookedSeats = countBookedSeats(room);
-                int totalSeats = 80; // 8 rows x 10 cols
+                int totalSeats = 80;
                 double percentage = (bookedSeats * 100.0) / totalSeats;
 
                 System.out.printf("  Suất %s: %d/%d ghế (%.1f%%)\n",
@@ -146,43 +135,5 @@ public class AdminSystem {
         return count;
     }
 
-    private void resetRoomSeats() {
-        System.out.println("\n===== RESET GHẾ PHÒNG =====");
-        movieManager.displayMovies();
 
-        System.out.print("Nhập ID phim: ");
-        int movieId = inputHandler.getIntInput();
-
-        Movies movie = movieManager.getMovieById(movieId);
-        if (movie == null) {
-            System.out.println("Không tìm thấy phim!\n");
-            return;
-        }
-
-        System.out.println("\nCác suất chiếu:");
-        for (int i = 0; i < movie.getShowTimes().size(); i++) {
-            System.out.println((i + 1) + ". " + movie.getShowTimes().get(i));
-        }
-
-        System.out.print("Chọn suất chiếu cần reset: ");
-        int choice = inputHandler.getIntInput();
-
-        if (choice < 1 || choice > movie.getShowTimes().size()) {
-            System.out.println("Suất chiếu không hợp lệ!\n");
-            return;
-        }
-
-        String showTime = movie.getShowTimes().get(choice - 1);
-        String roomKey = movie.getId() + "_" + showTime.replace(":", "");
-
-        System.out.println("CẢNH BÁO: Thao tác này sẽ xóa tất cả ghế đã đặt!");
-        System.out.print("Xác nhận reset (y/n): ");
-
-        if (inputHandler.getConfirmation()) {
-            FileManager.deleteRoom(roomKey);
-            System.out.println("\n✓ Đã reset ghế thành công!\n");
-        } else {
-            System.out.println("Đã hủy reset.\n");
-        }
-    }
 }

@@ -28,14 +28,5 @@ public class FileManager {
             return null;
         }
     }
-    public static void deleteRoom(String roomKey) {
-        try {
-            File file = new File("room_" + roomKey + ".dat");
-            if (file.exists()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            System.out.println("Lỗi xóa file phòng!");
-        }
-    }
+
 }
