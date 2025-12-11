@@ -1,6 +1,6 @@
-package Cinema2.Admin;
+package caseStudyModule2.admin;
 
-import caseStudyModule2.Utils.InputHandler;
+import caseStudyModule2.utils.InputHandler;
 
 public class AdminAuth {
     private static final String ADMIN_USERNAME = "admin";

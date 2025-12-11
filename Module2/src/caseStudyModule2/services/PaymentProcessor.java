@@ -1,9 +1,9 @@
 package caseStudyModule2.services;
 
-import caseStudyModule2.Utils.InputHandler;
-import caseStudyModule2.Utils.PriceCalculator;
+import caseStudyModule2.utils.InputHandler;
+import caseStudyModule2.utils.PriceCalculator;
 import caseStudyModule2.models.BookingData;
-import caseStudyModule2.models.Movies;
+import caseStudyModule2.models.Movie;
 
 public class PaymentProcessor {
     private InputHandler inputHandler;
@@ -12,7 +12,7 @@ public class PaymentProcessor {
         this.inputHandler = inputHandler;
     }
 
-    public void processPayment(Movies movie, String showTime, BookingData bookingData) {
+    public void processPayment(Movie movie, String showTime, BookingData bookingData) {
         int totalPrice = PriceCalculator.calculateTotal(bookingData.getSeatPrices());
 
         displayPaymentConfirmation(movie, showTime, bookingData, totalPrice);
@@ -27,7 +27,7 @@ public class PaymentProcessor {
         }
     }
 
-    private void displayPaymentConfirmation(Movies movie, String showTime,
+    private void displayPaymentConfirmation(Movie movie, String showTime,
                                             BookingData bookingData, int totalPrice) {
         System.out.println("\n╔════════════════════════════════════╗");
         System.out.println("║     XÁC NHẬN THANH TOÁN            ║");
@@ -41,14 +41,14 @@ public class PaymentProcessor {
         System.out.println("────────────────────────────────────");
     }
 
-    private void completeBooking(Movies movie, String showTime,
+    private void completeBooking(Movie movie, String showTime,
                                  BookingData bookingData, int totalPrice) {
         bookingData.getRoom().saveSeats();
 
         printTicket(movie, showTime, bookingData, totalPrice);
     }
 
-    private void printTicket(Movies movie, String showTime,
+    private void printTicket(Movie movie, String showTime,
                              BookingData bookingData, int totalPrice) {
         System.out.println("\n✓ ĐẶT VÉ THÀNH CÔNG!\n");
         System.out.println("╔════════════════════════════════════╗");

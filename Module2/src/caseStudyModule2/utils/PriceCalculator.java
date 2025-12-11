@@ -1,4 +1,4 @@
-package caseStudyModule2.Utils;
+package caseStudyModule2.utils;
 
 import java.util.ArrayList;
 

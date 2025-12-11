@@ -14,14 +14,14 @@ public class BookingData {
     }
 
     public Room getRoom() {
-        return room;
+        return this.room;
     }
 
     public ArrayList<String> getSelectedSeats() {
-        return selectedSeats;
+        return this.selectedSeats;
     }
 
     public ArrayList<Integer> getSeatPrices() {
-        return seatPrices;
+        return this.seatPrices;
     }
 }

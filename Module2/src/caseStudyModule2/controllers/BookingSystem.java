@@ -1,41 +1,44 @@
+
 package caseStudyModule2.controllers;
 
-
-import caseStudyModule2.Utils.InputHandler;
-import caseStudyModule2.Utils.MovieSelector;
+import caseStudyModule2.admin.AdminSystem;
+import caseStudyModule2.models.Movie;
+import caseStudyModule2.utils.InputHandler;
+import caseStudyModule2.utils.MovieSelector;
 import caseStudyModule2.models.BookingData;
-import caseStudyModule2.models.Movies;
 import caseStudyModule2.services.MovieManager;
 import caseStudyModule2.services.PaymentProcessor;
 import caseStudyModule2.services.SeatSelector;
-
 import java.util.Scanner;
 
 public class BookingSystem {
-    private final MovieManager movieManager;
-    private final MovieSelector movieSelector;
-    private final SeatSelector seatSelector;
-    private final PaymentProcessor paymentProcessor;
-    private final Scanner scanner;
+    private MovieManager movieManager;
+    private InputHandler inputHandler;
+    private MovieSelector movieSelector;
+    private SeatSelector seatSelector;
+    private PaymentProcessor paymentProcessor;
+    private AdminSystem adminSystem;
+    private Scanner scanner;
 
     public BookingSystem(MovieManager movieManager) {
         this.movieManager = movieManager;
         this.scanner = new Scanner(System.in);
-        InputHandler inputHandler = new InputHandler(scanner);
+        this.inputHandler = new InputHandler(scanner);
         this.movieSelector = new MovieSelector(movieManager, inputHandler);
         this.seatSelector = new SeatSelector(inputHandler);
         this.paymentProcessor = new PaymentProcessor(inputHandler);
+        this.adminSystem = new AdminSystem(movieManager, inputHandler);
     }
 
     public void run() {
-        int choice;
+        int choice = 0;
         do {
             displayMainMenu();
             choice = getUserChoice();
 
             handleMenuChoice(choice);
 
-        } while (choice != 4);
+        } while (choice != 5);
 
         scanner.close();
     }
@@ -43,8 +46,10 @@ public class BookingSystem {
     private void displayMainMenu() {
         System.out.println("\n===== MOVIE BOOKING SYSTEM =====");
         System.out.println("1. Xem danh sách phim");
-        System.out.println("2. Đặt vé xem phim");
-        System.out.println("3. Thoát");
+        System.out.println("2. Tìm kiếm phim");
+        System.out.println("3. Đặt vé xem phim");
+        System.out.println("4. Quản lý (Admin)");
+        System.out.println("5. Thoát");
         System.out.print("Chọn chức năng: ");
     }
 
@@ -64,9 +69,15 @@ public class BookingSystem {
                 movieManager.displayMovies();
                 break;
             case 2:
+                searchMovies();
+                break;
+            case 3:
                 processBooking();
                 break;
             case 4:
+                handleAdminPanel();
+                break;
+            case 5:
                 System.out.println("\nCảm ơn bạn đã sử dụng hệ thống!");
                 break;
             default:
@@ -74,11 +85,27 @@ public class BookingSystem {
         }
     }
 
+    private void searchMovies() {
+        System.out.println("\n===== TÌM KIẾM PHIM =====");
+        System.out.print("Nhập từ khóa tìm kiếm: ");
+        String keyword = inputHandler.getStringInput();
+
+        if (keyword.isEmpty()) {
+            System.out.println("Vui lòng nhập từ khóa!\n");
+            return;
+        }
+
+        movieManager.displaySearchResults(keyword);
+    }
+
+    private void handleAdminPanel() {
+        adminSystem.run();
+    }
 
     private void processBooking() {
         System.out.println("\n===== ĐẶT VÉ XEM PHIM =====");
 
-        Movies selectedMovie = movieSelector.selectMovie();
+        Movie selectedMovie = movieSelector.selectMovie();
         if (selectedMovie == null) return;
 
         String selectedTime = movieSelector.selectShowTime(selectedMovie);
@@ -89,5 +116,4 @@ public class BookingSystem {
 
         paymentProcessor.processPayment(selectedMovie, selectedTime, bookingData);
     }
-
 }

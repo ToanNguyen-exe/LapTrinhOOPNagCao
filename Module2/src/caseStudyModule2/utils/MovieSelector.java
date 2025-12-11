@@ -1,7 +1,7 @@
-package caseStudyModule2.Utils;
+package caseStudyModule2.utils;
 
 
-import caseStudyModule2.models.Movies;
+import caseStudyModule2.models.Movie;
 import caseStudyModule2.services.MovieManager;
 
 import java.util.List;
@@ -15,12 +15,12 @@ public class MovieSelector {
         this.inputHandler = inputHandler;
     }
 
-    public Movies selectMovie() {
+    public Movie selectMovie() {
         movieManager.displayMovies();
         System.out.print("Chọn phim: ");
 
         int movieId = inputHandler.getIntInput();
-        Movies selectedMovie = movieManager.getMovieById(movieId);
+        Movie selectedMovie = movieManager.getMovieById(movieId);
 
         if (selectedMovie == null) {
             System.out.println("Không tìm thấy phim. Vui lòng chọn lại.\n");
@@ -31,7 +31,7 @@ public class MovieSelector {
         return selectedMovie;
     }
 
-    public String selectShowTime(Movies movie) {
+    public String selectShowTime(Movie movie) {
         List<String> showTimes = movie.getShowTimes();
 
         displayShowTimes(showTimes);

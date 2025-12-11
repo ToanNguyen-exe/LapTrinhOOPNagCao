@@ -1,10 +1,10 @@
 package caseStudyModule2.models;
 
-import caseStudyModule2.services.FileManager;
+import caseStudyModule2.services.DataManager;
 
 public class Room {
-    private final String roomKey;
-    private final SeatMap seatMap;
+    private String roomKey;
+    private SeatMap seatMap;
 
     public Room(String roomKey) {
         this.roomKey = roomKey;
@@ -15,7 +15,11 @@ public class Room {
         return seatMap;
     }
 
+    public String getRoomKey() {
+        return roomKey;
+    }
+
     public void saveSeats() {
-        FileManager.saveRoom(roomKey, seatMap.getSeats());
+        DataManager.saveSeats(roomKey, seatMap.getSeats());
     }
 }

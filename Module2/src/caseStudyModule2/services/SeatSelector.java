@@ -1,10 +1,10 @@
 package caseStudyModule2.services;
 
-import caseStudyModule2.Utils.InputHandler;
-import caseStudyModule2.Utils.PriceCalculator;
-import caseStudyModule2.Utils.SeatPrice;
+import caseStudyModule2.utils.InputHandler;
+import caseStudyModule2.utils.PriceCalculator;
+import caseStudyModule2.utils.SeatPrice;
 import caseStudyModule2.models.BookingData;
-import caseStudyModule2.models.Movies;
+import caseStudyModule2.models.Movie;
 import caseStudyModule2.models.Room;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class SeatSelector {
         this.inputHandler = inputHandler;
     }
 
-    public BookingData selectSeats(Movies movie, String showTime) {
+    public BookingData selectSeats(Movie movie, String showTime) {
         String roomKey = generateRoomKey(movie.getId(), showTime);
         Room room = new Room(roomKey);
 
@@ -70,6 +70,11 @@ public class SeatSelector {
         int row = coords[0];
         int col = coords[1];
 
+        if (row == 7) {
+            handleCoupleSeats(room, seatInput, row, col, selectedSeats, seatPrices);
+            return;
+        }
+
         if (room.getSeatMap().isTaken(row, col)) {
             System.out.println("Ghế đã được đặt. Vui lòng chọn ghế khác!\n");
             return;
@@ -83,6 +88,44 @@ public class SeatSelector {
 
         System.out.println("✓ Đã thêm ghế " + seatInput + " (" +
                 PriceCalculator.formatPrice(price) + ")");
+    }
+
+    private void handleCoupleSeats(Room room, String seatInput, int row, int col,
+                                   ArrayList<String> selectedSeats,
+                                   ArrayList<Integer> seatPrices) {
+
+        int pairCol = (col % 2 == 0) ? col + 1 : col - 1;
+
+        if (pairCol < 0 || pairCol >= 10) {
+            System.out.println("Ghế đôi phải chọn theo cặp! Vui lòng chọn ghế hợp lệ.\n");
+            return;
+        }
+
+        if (room.getSeatMap().isTaken(row, col)) {
+            System.out.println("Ghế " + seatInput + " đã được đặt. Vui lòng chọn cặp ghế khác!\n");
+            return;
+        }
+
+        String pairSeatName = "H" + (pairCol + 1);
+        if (room.getSeatMap().isTaken(row, pairCol)) {
+            System.out.println("Ghế cặp " + pairSeatName + " đã được đặt. Vui lòng chọn cặp ghế khác!\n");
+            return;
+        }
+
+        room.getSeatMap().book(row, col);
+        room.getSeatMap().book(row, pairCol);
+
+        String seat1 = (col < pairCol) ? seatInput : pairSeatName;
+        String seat2 = (col < pairCol) ? pairSeatName : seatInput;
+
+        selectedSeats.add(seat1);
+        selectedSeats.add(seat2);
+
+        seatPrices.add(65_000);
+        seatPrices.add(65_000);
+
+        System.out.println("✓ Đã thêm ghế đôi " + seat1 + " & " + seat2 +
+                " (130,000 VNĐ cho cả cặp)");
     }
 
     private String generateRoomKey(int movieId, String showTime) {
