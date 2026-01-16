@@ -10,7 +10,7 @@ import caseStudyModule2.models.Room;
 import java.util.ArrayList;
 
 public class SeatSelector {
-    private final InputHandler inputHandler;
+    private InputHandler inputHandler;
 
     public SeatSelector(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
@@ -26,7 +26,7 @@ public class SeatSelector {
         while (true) {
             displaySeatSelection(room, selectedSeats, seatPrices);
 
-            System.out.print("\nChọn ghế (vd: A5), 'Ok' để thanh toán, hoặc '0' để hủy: ");
+            System.out.print("\nChọn ghế (vd: A5), 'ok' để thanh toán, hoặc '0' để hủy: ");
             String input = inputHandler.getUpperCaseInput();
 
             if (input.equals("0")) {
@@ -46,6 +46,7 @@ public class SeatSelector {
         }
     }
 
+
     private void displaySeatSelection(Room room, ArrayList<String> selectedSeats,
                                       ArrayList<Integer> seatPrices) {
         System.out.println("\n===== CHỌN GHẾ =====");
@@ -57,6 +58,7 @@ public class SeatSelector {
             System.out.println("Tổng tạm tính: " + PriceCalculator.formatPrice(total));
         }
     }
+
 
     private void processSeatSelection(Room room, String seatInput,
                                       ArrayList<String> selectedSeats,
@@ -71,7 +73,7 @@ public class SeatSelector {
         int col = coords[1];
 
         if (row == 7) {
-            handleCoupleSeats(room, seatInput, row, col, selectedSeats, seatPrices);
+            handleCoupleSeats(room, row, col, seatInput, selectedSeats, seatPrices);
             return;
         }
 
@@ -90,42 +92,54 @@ public class SeatSelector {
                 PriceCalculator.formatPrice(price) + ")");
     }
 
-    private void handleCoupleSeats(Room room, String seatInput, int row, int col,
+    private void handleCoupleSeats(Room room, int row, int col, String seatInput,
                                    ArrayList<String> selectedSeats,
                                    ArrayList<Integer> seatPrices) {
 
-        int pairCol = (col % 2 == 0) ? col + 1 : col - 1;
-
-        if (pairCol < 0 || pairCol >= 10) {
-            System.out.println("Ghế đôi phải chọn theo cặp! Vui lòng chọn ghế hợp lệ.\n");
-            return;
-        }
-
         if (room.getSeatMap().isTaken(row, col)) {
-            System.out.println("Ghế " + seatInput + " đã được đặt. Vui lòng chọn cặp ghế khác!\n");
+            System.out.println("Ghế đã được đặt. Vui lòng chọn ghế khác!\n");
             return;
         }
 
-        String pairSeatName = "H" + (pairCol + 1);
-        if (room.getSeatMap().isTaken(row, pairCol)) {
-            System.out.println("Ghế cặp " + pairSeatName + " đã được đặt. Vui lòng chọn cặp ghế khác!\n");
+        int coupleCol;
+        String coupleSeatName;
+
+        if (col % 2 == 0) {
+            coupleCol = col + 1;
+            coupleSeatName = "H" + (coupleCol + 1);
+        }
+
+        else {
+            coupleCol = col - 1;
+            coupleSeatName = "H" + (coupleCol + 1);
+        }
+
+        if (room.getSeatMap().isTaken(row, coupleCol)) {
+            System.out.println("⚠️  Ghế Couple hàng H phải đặt 2 ghế cạnh nhau!");
+            System.out.println("Ghế " + coupleSeatName + " đã được đặt. Vui lòng chọn cặp ghế khác!\n");
             return;
         }
 
         room.getSeatMap().book(row, col);
-        room.getSeatMap().book(row, pairCol);
+        room.getSeatMap().book(row, coupleCol);
 
-        String seat1 = (col < pairCol) ? seatInput : pairSeatName;
-        String seat2 = (col < pairCol) ? pairSeatName : seatInput;
+        String seat1, seat2;
+        if (col < coupleCol) {
+            seat1 = seatInput;
+            seat2 = coupleSeatName;
+        } else {
+            seat1 = coupleSeatName;
+            seat2 = seatInput;
+        }
 
         selectedSeats.add(seat1);
         selectedSeats.add(seat2);
 
-        seatPrices.add(65_000);
-        seatPrices.add(65_000);
+        seatPrices.add(65000);
+        seatPrices.add(65000);
 
-        System.out.println("✓ Đã thêm ghế đôi " + seat1 + " & " + seat2 +
-                " (130,000 VNĐ cho cả cặp)");
+        System.out.println("✓ Đã thêm ghế Couple: " + seat1 + " & " + seat2 +
+                " (130,000 VNĐ/cặp)");
     }
 
     private String generateRoomKey(int movieId, String showTime) {

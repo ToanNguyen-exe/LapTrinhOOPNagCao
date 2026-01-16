@@ -15,10 +15,6 @@ public class Room {
         return seatMap;
     }
 
-    public String getRoomKey() {
-        return roomKey;
-    }
-
     public void saveSeats() {
         DataManager.saveSeats(roomKey, seatMap.getSeats());
     }

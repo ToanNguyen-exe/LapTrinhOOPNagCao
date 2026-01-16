@@ -4,7 +4,7 @@ import caseStudyModule2.utils.InputHandler;
 
 public class AdminAuth {
     private static final String ADMIN_USERNAME = "admin";
-    private static final String ADMIN_PASSWORD = "000000";
+    private static final String ADMIN_PASSWORD = "admin123";
     private static final int MAX_ATTEMPTS = 3;
 
     private InputHandler inputHandler;
@@ -15,7 +15,7 @@ public class AdminAuth {
 
     public boolean login() {
         System.out.println("\n===== ĐĂNG NHẬP ADMIN =====");
-        System.out.println("(Username: admin, Password: 000000)");
+        System.out.println("(Username: admin, Password: admin123)");
 
         int attempts = 0;
 

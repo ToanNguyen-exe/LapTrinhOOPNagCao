@@ -14,4 +14,5 @@ public class PriceCalculator {
     public static String formatPrice(int price) {
         return String.format("%,d VNĐ", price);
     }
+
 }

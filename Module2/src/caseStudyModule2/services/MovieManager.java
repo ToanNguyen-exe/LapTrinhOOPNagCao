@@ -4,6 +4,7 @@ import caseStudyModule2.models.Movie;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class MovieManager {
@@ -27,11 +28,7 @@ public class MovieManager {
     }
 
     private void initializeDefaultMovies() {
-        addMovie("Zootopia 2", 1, "10:00", "13:30", "16:00", "18:05", "20:30", "23:00");
-        addMovie("Hoàng tử quỷ", 2, "09:00", "11:45", "18:15");
-        addMovie("Vua Của Các Vua", 3, "08:30", "14:00", "20:00");
-        addMovie("Truy Tìm Long Diên Hương", 4, "12:00", "15:30", "19:00");
-        addMovie("Năm Đêm Kinh Hoàng", 5, "17:00", "21:30", "23:59");
+
         System.out.println("✓ Đã khởi tạo dữ liệu phim mặc định.");
     }
 
@@ -50,51 +47,14 @@ public class MovieManager {
         saveMoviesToFile();
     }
 
-    public void updateMovieName(int id, String newName) {
-        Movie movie = getMovieById(id);
-        if (movie != null) {
-            movie.setName(newName);
-            saveMoviesToFile();
-        }
-    }
-
-    public void updateShowTimes(int id, List<String> newShowTimes) {
-        Movie movie = getMovieById(id);
-        if (movie != null) {
-            movie.setShowTimes(newShowTimes);
-            saveMoviesToFile();
-        }
-    }
-
-    public ArrayList<Movie> searchMovies(String keyword) {
-        ArrayList<Movie> results = new ArrayList<>();
-        String lowerKeyword = keyword.toLowerCase();
-
-        for (Movie movie : movies) {
-            if (movie.getName().toLowerCase().contains(lowerKeyword)) {
-                results.add(movie);
-            }
-        }
-        return results;
-    }
-
-    public void displaySearchResults(String keyword) {
-        ArrayList<Movie> results = searchMovies(keyword);
-
-        if (results.isEmpty()) {
-            System.out.println("\n✗ Không tìm thấy phim nào với từ khóa: \"" + keyword + "\"");
-        } else {
-            System.out.println("\n===== KẾT QUẢ TÌM KIẾM: \"" + keyword + "\" =====");
-            System.out.println("Tìm thấy " + results.size() + " phim:");
-            for (Movie movie : results) {
-                System.out.println(movie);
-            }
-        }
-        System.out.println();
-    }
-
     public ArrayList<Movie> getAllMovies() {
         return movies;
+    }
+
+    public ArrayList<Movie> getMoviesSortedByRoom() {
+        ArrayList<Movie> sorted = new ArrayList<>(movies);
+        sorted.sort(Comparator.comparingInt(Movie::getRoomNumber));
+        return sorted;
     }
 
     public Movie getMovieById(int id) {
@@ -106,12 +66,38 @@ public class MovieManager {
         return null;
     }
 
+    public Movie getMovieByDisplayIndex(int index) {
+        ArrayList<Movie> sorted = getMoviesSortedByRoom();
+        if (index >= 1 && index <= sorted.size()) {
+            return sorted.get(index - 1);
+        }
+        return null;
+    }
+
     public void displayMovies() {
         System.out.println("\n===== DANH SÁCH PHIM =====");
-        for (Movie movie : movies) {
-            System.out.println(movie);
+
+        ArrayList<Movie> sortedMovies = new ArrayList<>(movies);
+        sortedMovies.sort(Comparator.comparingInt(Movie::getRoomNumber));
+
+        for (Movie movie : sortedMovies) {
+            System.out.println("Phòng " + movie.getRoomNumber() + " - " + movie.getName());
+            System.out.println("  Suất chiếu: " + String.join(", ", movie.getShowTimes()));
         }
         System.out.println();
     }
 
+    public void displayMoviesForAdmin() {
+        System.out.println("\n===== DANH SÁCH PHIM (ADMIN) =====");
+
+        for (Movie movie : movies) {
+            System.out.println("\n[ID: " + movie.getId() + "] " + movie.getName());
+            System.out.println("  Phòng: " + movie.getRoomNumber());
+            System.out.println("  Suất chiếu: " + String.join(", ", movie.getShowTimes()));
+            System.out.println("  ─────────────────────");
+        }
+        System.out.println();
+    }
 }
+
+

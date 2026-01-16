@@ -1,13 +1,8 @@
 package caseStudyModule2.models;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
-public class Movie implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class Movie {
     private int id;
     private String name;
     private int roomNumber;
@@ -34,18 +29,6 @@ public class Movie implements Serializable {
 
     public List<String> getShowTimes() {
         return showTimes;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setShowTimes(List<String> showTimes) {
-        this.showTimes = showTimes;
-    }
-
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
     }
 
     @Override

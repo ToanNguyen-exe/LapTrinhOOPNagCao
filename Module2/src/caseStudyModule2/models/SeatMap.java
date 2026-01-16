@@ -72,7 +72,7 @@ public class SeatMap {
         System.out.println(GREEN + "● Ghế thường (50,000 VNĐ)" + RESET);
         System.out.println(WHITE + "● Ghế tiêu chuẩn (75,000 VNĐ)" + RESET);
         System.out.println(YELLOW + "● Ghế VIP (90,000 VNĐ)" + RESET);
-        System.out.println(MAGENTA + "● Ghế Couple (130,000 VNĐ/cặp)" + RESET);
+        System.out.println(MAGENTA + "● Ghế Couple - Hàng H (130,000 VNĐ/cặp)" + RESET);
         System.out.println(RED + "X Ghế đã đặt" + RESET);
     }
 

@@ -1,3 +1,0 @@
-package AccessModifier_staticMethod_staticProperty;
-
-

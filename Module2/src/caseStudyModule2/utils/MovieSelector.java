@@ -4,23 +4,25 @@ package caseStudyModule2.utils;
 import caseStudyModule2.models.Movie;
 import caseStudyModule2.services.MovieManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieSelector {
-    private MovieManager movieManager;
-    private InputHandler inputHandler;
+    private final MovieManager movieManager;
+    private final InputHandler inputHandler;
 
     public MovieSelector(MovieManager movieManager, InputHandler inputHandler) {
         this.movieManager = movieManager;
         this.inputHandler = inputHandler;
     }
 
-    public Movie selectMovie() {
-        movieManager.displayMovies();
-        System.out.print("Chọn phim: ");
 
-        int movieId = inputHandler.getIntInput();
-        Movie selectedMovie = movieManager.getMovieById(movieId);
+    public Movie selectMovie() {
+        displayMoviesForCustomer();
+        System.out.print("Chọn phim (nhập số thứ tự): ");
+
+        int choice = inputHandler.getIntInput();
+        Movie selectedMovie = movieManager.getMovieByDisplayIndex(choice);
 
         if (selectedMovie == null) {
             System.out.println("Không tìm thấy phim. Vui lòng chọn lại.\n");
@@ -29,6 +31,18 @@ public class MovieSelector {
 
         System.out.println("Phim đã chọn: " + selectedMovie.getName());
         return selectedMovie;
+    }
+
+    private void displayMoviesForCustomer() {
+        System.out.println("\n===== DANH SÁCH PHIM =====");
+        ArrayList<Movie> sortedMovies = movieManager.getMoviesSortedByRoom();
+
+        for (int i = 0; i < sortedMovies.size(); i++) {
+            Movie movie = sortedMovies.get(i);
+            System.out.println((i + 1) + ". Phòng " + movie.getRoomNumber() + " - " + movie.getName());
+            System.out.println("   Suất chiếu: " + String.join(", ", movie.getShowTimes()));
+        }
+        System.out.println();
     }
 
     public String selectShowTime(Movie movie) {

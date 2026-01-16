@@ -6,7 +6,7 @@ import caseStudyModule2.models.BookingData;
 import caseStudyModule2.models.Movie;
 
 public class PaymentProcessor {
-    private InputHandler inputHandler;
+    private final InputHandler inputHandler;
 
     public PaymentProcessor(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
@@ -43,6 +43,7 @@ public class PaymentProcessor {
 
     private void completeBooking(Movie movie, String showTime,
                                  BookingData bookingData, int totalPrice) {
+
         bookingData.getRoom().saveSeats();
 
         printTicket(movie, showTime, bookingData, totalPrice);
